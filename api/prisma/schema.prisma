@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Provider {
+  GOOGLE
+  GITHUB
+  LOCAL
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name     String
+  email    String @unique
+  password String
+
+  provider Provider
+
+  accounts Account[]
+
+  @@index([email, name])
+}
+
+model Account {
+  id      String  @id @default(cuid())
+  name    String
+  balance Decimal @default(0)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  transactions Transaction[]
+
+  @@index([userId, name])
+}
+
+model Transaction {
+  id              String          @id @default(cuid())
+  amount          Decimal
+  description     String
+  date            DateTime        @default(now())
+  transactionType TransactionType
+
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
+
+  transactions Transaction[]
+}
