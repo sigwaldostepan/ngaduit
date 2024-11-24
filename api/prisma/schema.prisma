@@ -28,9 +28,10 @@ model User {
   email    String @unique
   password String
 
-  provider Provider
+  provider Provider? @default(LOCAL)
 
-  accounts Account[]
+  accounts      Account[]
+  transactions  Transaction[]
 
   @@index([email, name])
 }
@@ -52,8 +53,11 @@ model Transaction {
   id              String          @id @default(cuid())
   amount          Decimal
   description     String
-  date            DateTime        @default(now())
+  date            DateTime        @db.Date
   transactionType TransactionType
+
+  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
 
   account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String

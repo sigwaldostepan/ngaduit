@@ -1,66 +1,53 @@
-import { useMemo } from "react";
-import { QueryClient } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { AppRoot } from "./routes/app/root";
-import { Dashboard } from "./routes/app/dashboard";
-import { Register } from "./routes/auth/register";
-import { Login } from "./routes/auth/login";
+import { paths } from "@/config/paths";
 
-const paths = {
-  home: {
-    path: "/",
-    getUrl: () => "/",
-  },
+const router = createBrowserRouter([
+  {
+    path: "/auth",
+    children: [
+      {
+        path: paths.auth.register.path,
+        lazy: async () => {
+          const { Register } = await import("./routes/auth/register");
 
-  auth: {
-    register: {
-      path: "/auth/register",
-      getUrl: () => "/auth/register",
-    },
-    login: {
-      path: "/auth/login",
-      getUrl: () => "/auth/login",
-    },
-  },
-
-  app: {
-    root: {
-      path: "/",
-      getUrl: () => "/",
-    },
-    dashboard: {
-      path: "/dashboard",
-      getUrl: () => "/dashboard",
-    },
-  },
-};
-
-const createAppRouter = (queryClient: QueryClient) =>
-  createBrowserRouter([
-    {
-      path: paths.app.root.path,
-      element: <AppRoot />,
-      children: [
-        {
-          path: paths.app.dashboard.path,
-          Component: Dashboard,
+          return { Component: Register };
         },
-      ],
-    },
-    {
-      path: paths.auth.register.path,
-      element: <Register />,
-    },
-    {
-      path: paths.auth.login.path,
-      element: <Login />,
-    },
-  ]);
+      },
+      {
+        path: paths.auth.login.path,
+        lazy: async () => {
+          const { Login } = await import("./routes/auth/login");
+
+          return { Component: Login };
+        },
+      },
+    ],
+  },
+  {
+    path: paths.app.root.path,
+    element: <AppRoot />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="dashboard" />,
+      },
+      {
+        path: paths.app.dashboard.path,
+        lazy: async () => {
+          const { Dashboard } = await import("./routes/app/dashboard");
+
+          return { Component: Dashboard };
+        },
+      },
+    ],
+  },
+]);
 
 export const AppRouter = () => {
-  const queryClient = new QueryClient();
-
-  const router = useMemo(() => createAppRouter(queryClient), [queryClient]);
-
   return <RouterProvider router={router} />;
 };
