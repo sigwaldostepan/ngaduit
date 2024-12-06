@@ -10,8 +10,6 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
         <Sidebar />
         <main className="flex flex-col items-start w-full min-h-[calc(100vh-73px)] px-4 py-6">
           {children}
-          <div className="min-h-screen"></div>
-          <div className="min-h-screen"></div>
         </main>
         <MobileNav />
       </div>
