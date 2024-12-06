@@ -1,3 +1,4 @@
+import { DashboardLayout } from "@/components/layouts";
 import { paths } from "@/config/paths";
 import { api } from "@/lib/api-client";
 import { useStore } from "@/store";
@@ -31,5 +32,9 @@ export const AppRoot = () => {
     checkSession();
   }, [onLogin, onLogout]);
 
-  return <Outlet />;
+  return (
+    <DashboardLayout>
+      <Outlet />
+    </DashboardLayout>
+  );
 };
