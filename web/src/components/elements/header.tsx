@@ -16,9 +16,7 @@ import { useShallow } from "zustand/shallow";
 import { toast } from "sonner";
 
 export const Header = () => {
-  const [user, onLogout] = useStore(
-    useShallow((state) => [state.user, state.onLogout])
-  );
+  const [user, onLogout] = useStore(useShallow((state) => [state.user, state.onLogout]));
   const navigate = useNavigate();
   const { mutate: logout } = useLogout({
     onSuccess: () => {
@@ -33,7 +31,7 @@ export const Header = () => {
   });
 
   return (
-    <header className="sticky top-0 w-full bg-background border-b">
+    <header className="sticky top-0 w-full bg-background border-b z-50">
       <div className="p-4 flex items-center justify-between">
         <Link to="/dashboard">
           <h1 className="text-2xl font-black">
