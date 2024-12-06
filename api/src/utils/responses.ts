@@ -32,6 +32,7 @@ export const sendErrorResponse = ({ res, error }: SendErrorResponseParams) => {
         error: error.zodIssues,
       });
     }
+
     return res.status(error.status).send({
       success: false,
       status: error.status,
@@ -49,17 +50,13 @@ export const sendErrorResponse = ({ res, error }: SendErrorResponseParams) => {
 type SendOkResponseParams = {
   res: Response;
   payload: {
-    message: string | ZodIssue[];
+    message?: string;
     data?: object;
   };
   status?: number;
 };
 
-export const sendOkResponse = ({
-  res,
-  payload,
-  status = 200,
-}: SendOkResponseParams) => {
+export const sendOkResponse = ({ res, payload, status = 200 }: SendOkResponseParams) => {
   return res.status(status).send({
     status,
     success: true,

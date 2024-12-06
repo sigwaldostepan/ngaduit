@@ -21,7 +21,7 @@ export const paths = {
     },
     income: {
       path: "/pemasukkan",
-      getUrl: () => "/pemsaukkan",
+      getUrl: () => "/pemasukkan",
     },
     expense: {
       path: "/pengeluaran",

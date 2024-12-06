@@ -7,18 +7,18 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  accounts?: Accounts;
-  transactions?: Transactions;
+  accounts?: Account;
+  transactions?: Transaction;
 };
 
-export type Accounts = {
+export type Account = {
   id: string;
   name: string;
   balance: number;
   userId: string;
 };
 
-export type Transactions = {
+export type Transaction = {
   id: string;
   amount: number;
   description: string;

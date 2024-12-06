@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { AppRoot } from "./routes/app/root";
 import { paths } from "@/config/paths";
 
@@ -42,6 +38,14 @@ const router = createBrowserRouter([
           const { Dashboard } = await import("./routes/app/dashboard");
 
           return { Component: Dashboard };
+        },
+      },
+      {
+        path: paths.app.account.path,
+        lazy: async () => {
+          const { Accounts } = await import("./routes/app/accounts");
+
+          return { Component: Accounts };
         },
       },
     ],
