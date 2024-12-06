@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
-    <aside className="hidden lg:flex flex-col w-1/5 border-r h-[calc(100vh-73px)]">
+    <aside className="hidden lg:flex flex-col w-1/3 border-r h-[calc(100vh-73px)] left-0 top-[73px] lg:sticky">
       <ul className="flex flex-col items-center justify-center">
         {navigations.map((navigation) => (
           <li key={navigation.name} className="w-full">

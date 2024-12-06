@@ -2,19 +2,19 @@ import * as React from "react";
 import { Header, Sidebar } from "../elements";
 import { MobileNav } from "../elements/mobile-nav";
 
-export const DashboardLayout = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <main className="flex items-start min-h-[calc(100vh-73px)]">
+      <div className="flex items-start min-h-[calc(100vh-73px)]">
         <Sidebar />
-        <div className="flex flex-col items-start">{children}</div>
+        <main className="flex flex-col items-start w-full min-h-[calc(100vh-73px)] px-4 py-6">
+          {children}
+          <div className="min-h-screen"></div>
+          <div className="min-h-screen"></div>
+        </main>
         <MobileNav />
-      </main>
+      </div>
     </>
   );
 };
