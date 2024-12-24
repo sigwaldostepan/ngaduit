@@ -48,6 +48,14 @@ const router = createBrowserRouter([
           return { Component: Accounts };
         },
       },
+      {
+        path: paths.app.category.path,
+        lazy: async () => {
+          const { Categories } = await import("./routes/app/categories");
+
+          return { Component: Categories };
+        },
+      },
     ],
   },
 ]);

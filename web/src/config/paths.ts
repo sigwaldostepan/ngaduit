@@ -31,5 +31,9 @@ export const paths = {
       path: "/akun-rekening",
       getUrl: () => "/akun-rekening",
     },
+    category: {
+      path: "/kategori",
+      getUrl: () => "/kategori",
+    },
   },
 };
