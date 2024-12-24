@@ -18,6 +18,14 @@ export type Account = {
   userId: string;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+  createdAt: string;
+  userId: string;
+  transactions: Transaction[];
+};
+
 export type Transaction = {
   id: string;
   amount: number;

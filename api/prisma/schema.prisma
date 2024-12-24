@@ -8,12 +8,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Provider {
-  GOOGLE
-  GITHUB
-  LOCAL
-}
-
 enum TransactionType {
   INCOME
   EXPENSE
@@ -28,10 +22,9 @@ model User {
   email    String @unique
   password String
 
-  provider Provider? @default(LOCAL)
-
-  accounts      Account[]
-  transactions  Transaction[]
+  accounts     Account[]
+  categories   Category[]
+  transactions Transaction[]
 
   @@index([email, name])
 }
@@ -56,8 +49,8 @@ model Transaction {
   date            DateTime        @db.Date
   transactionType TransactionType
 
-  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String
@@ -70,6 +63,9 @@ model Category {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   name      String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   transactions Transaction[]
 }
