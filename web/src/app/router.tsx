@@ -1,15 +1,19 @@
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import { AppRoot } from "./routes/app/root";
-import { paths } from "@/config/paths";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
+import { AppRoot } from './routes/app/root';
+import { paths } from '@/config/paths';
 
 const router = createBrowserRouter([
   {
-    path: "/auth",
+    path: '/auth',
     children: [
       {
         path: paths.auth.register.path,
         lazy: async () => {
-          const { Register } = await import("./routes/auth/register");
+          const { Register } = await import('./routes/auth/register');
 
           return { Component: Register };
         },
@@ -17,7 +21,7 @@ const router = createBrowserRouter([
       {
         path: paths.auth.login.path,
         lazy: async () => {
-          const { Login } = await import("./routes/auth/login");
+          const { Login } = await import('./routes/auth/login');
 
           return { Component: Login };
         },
@@ -35,7 +39,7 @@ const router = createBrowserRouter([
       {
         path: paths.app.dashboard.path,
         lazy: async () => {
-          const { Dashboard } = await import("./routes/app/dashboard");
+          const { Dashboard } = await import('./routes/app/dashboard');
 
           return { Component: Dashboard };
         },
@@ -43,7 +47,7 @@ const router = createBrowserRouter([
       {
         path: paths.app.account.path,
         lazy: async () => {
-          const { Accounts } = await import("./routes/app/accounts");
+          const { Accounts } = await import('./routes/app/accounts');
 
           return { Component: Accounts };
         },
@@ -51,9 +55,17 @@ const router = createBrowserRouter([
       {
         path: paths.app.category.path,
         lazy: async () => {
-          const { Categories } = await import("./routes/app/categories");
+          const { Categories } = await import('./routes/app/categories');
 
           return { Component: Categories };
+        },
+      },
+      {
+        path: paths.app.transaction.path,
+        lazy: async () => {
+          const { Transactions } = await import('./routes/app/transactions');
+
+          return { Component: Transactions };
         },
       },
     ],

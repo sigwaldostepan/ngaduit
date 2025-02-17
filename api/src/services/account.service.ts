@@ -1,26 +1,34 @@
-import { AccountRepository } from "../repositories/account.repository";
-import { EditAccountSchema, TopUpSchema } from "../schemas/account";
-import { ErrorResponse } from "../utils/responses";
+import { AccountRepository } from '../repositories/account.repository';
+import { EditAccountSchema, TopUpSchema } from '../schemas/account';
+import { ErrorResponse } from '../utils/responses';
 
 export class AccountService {
   constructor(private accountRepository: AccountRepository) {
     this.accountRepository = accountRepository;
   }
 
-  private validSortFields = ["name", "balance"];
-  private validSortOrders = ["asc", "desc"];
+  private validSortFields = ['name', 'balance'];
+  private validSortOrders = ['asc', 'desc'];
 
-  getAccounts = async (userId: string, sortBy: string, order: string, searchQuery: string) => {
+  getAccounts = async (
+    userId: string,
+    sortBy: string,
+    order: string,
+    searchQuery: string
+  ) => {
     if (sortBy && !this.validSortFields.includes(sortBy)) {
-      throw new ErrorResponse("Field pengurutan tidak valid", 400);
+      throw new ErrorResponse('Field pengurutan tidak valid', 400);
     } else if (order && !this.validSortOrders.includes(order)) {
-      throw new ErrorResponse("Ga tau mau diurutin kaya gimana", 400);
+      throw new ErrorResponse('Ga tau mau diurutin kaya gimana', 400);
     }
 
     let accounts;
 
     if (searchQuery && !(sortBy && order)) {
-      accounts = await this.accountRepository.getAccountsByName(searchQuery, userId);
+      accounts = await this.accountRepository.getAccountsByName(
+        searchQuery,
+        userId
+      );
     } else if (searchQuery && sortBy && order) {
       accounts = await this.accountRepository.getSortedAccountsByName(
         searchQuery,
@@ -31,7 +39,11 @@ export class AccountService {
     } else if (!searchQuery && !(sortBy && order)) {
       accounts = await this.accountRepository.getAllAccounts(userId);
     } else if (!searchQuery && sortBy && order) {
-      accounts = await this.accountRepository.getSortedAllAccounts(userId, sortBy, order);
+      accounts = await this.accountRepository.getSortedAllAccounts(
+        userId,
+        sortBy,
+        order
+      );
     }
 
     return accounts;
@@ -41,14 +53,22 @@ export class AccountService {
     const account = await this.accountRepository.getAccountById(id, userId);
 
     if (!account) {
-      throw new ErrorResponse("Akun rekening ga ketemu", 404);
+      throw new ErrorResponse('Akun rekening ga ketemu', 404);
     }
 
     return account;
   };
 
-  addAccount = async (userId: string, accountName: string, initialBalance = 0) => {
-    const account = await this.accountRepository.createAccount(userId, accountName, initialBalance);
+  addAccount = async (
+    userId: string,
+    accountName: string,
+    initialBalance = 0
+  ) => {
+    const account = await this.accountRepository.createAccount(
+      userId,
+      accountName,
+      initialBalance
+    );
 
     return account;
   };
@@ -57,12 +77,51 @@ export class AccountService {
     const account = await this.getAccountById(accountId, userId);
     const newAccountBalance = +account.balance + payload.amount;
 
-    const response = await this.accountRepository.updateBalance(account.id, newAccountBalance);
+    const response = await this.accountRepository.updateBalance(
+      account.id,
+      newAccountBalance
+    );
 
     return response;
   };
 
-  editAccount = async (accountId: string, userId: string, payload: EditAccountSchema) => {
+  increaseBalance = async (
+    accountId: string,
+    userId: string,
+    amount: number
+  ) => {
+    const account = await this.getAccountById(accountId, userId);
+    const newAccountBalance = +account.balance + amount;
+
+    const response = await this.accountRepository.updateBalance(
+      account.id,
+      newAccountBalance
+    );
+
+    return response;
+  };
+
+  decreaseBalance = async (
+    accountId: string,
+    userId: string,
+    amount: number
+  ) => {
+    const account = await this.getAccountById(accountId, userId);
+    const newAccountBalance = +account.balance - amount;
+
+    const response = await this.accountRepository.updateBalance(
+      account.id,
+      newAccountBalance
+    );
+
+    return response;
+  };
+
+  editAccount = async (
+    accountId: string,
+    userId: string,
+    payload: EditAccountSchema
+  ) => {
     const account = await this.getAccountById(accountId, userId);
     const newAccountBalance = payload.balance || +account.balance;
 
@@ -78,7 +137,10 @@ export class AccountService {
   deleteAccount = async (accountId: string, userId: string) => {
     const account = await this.getAccountById(accountId, userId);
 
-    const deletedAccount = await this.accountRepository.deleteAccount(account.id, account.userId);
+    const deletedAccount = await this.accountRepository.deleteAccount(
+      account.id,
+      account.userId
+    );
 
     return deletedAccount;
   };
