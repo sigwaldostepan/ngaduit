@@ -1,39 +1,35 @@
 export const paths = {
   auth: {
     register: {
-      path: "register",
-      getUrl: () => "/auth/register",
+      path: 'register',
+      getUrl: () => '/auth/register',
     },
     login: {
-      path: "login",
-      getUrl: () => "/auth/login",
+      path: 'login',
+      getUrl: () => '/auth/login',
     },
   },
 
   app: {
     root: {
-      path: "/",
-      getUrl: () => "/",
+      path: '/',
+      getUrl: () => '/',
     },
     dashboard: {
-      path: "/dashboard",
-      getUrl: () => "/dashboard",
+      path: '/dashboard',
+      getUrl: () => '/dashboard',
     },
-    income: {
-      path: "/pemasukkan",
-      getUrl: () => "/pemasukkan",
-    },
-    expense: {
-      path: "/pengeluaran",
-      getUrl: () => "/pengeluaran",
+    transaction: {
+      path: '/transaksi',
+      getUrl: () => '/transaksi',
     },
     account: {
-      path: "/akun-rekening",
-      getUrl: () => "/akun-rekening",
+      path: '/akun-rekening',
+      getUrl: () => '/akun-rekening',
     },
     category: {
-      path: "/kategori",
-      getUrl: () => "/kategori",
+      path: '/kategori',
+      getUrl: () => '/kategori',
     },
   },
 };

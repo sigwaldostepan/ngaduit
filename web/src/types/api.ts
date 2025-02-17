@@ -26,9 +26,20 @@ export type Category = {
   transactions: Transaction[];
 };
 
+export enum TransactionType {
+  INCOME = 'INCOME',
+  EXPENSE = 'EXPENSE',
+}
+
 export type Transaction = {
   id: string;
   amount: number;
   description: string;
-  date: Date;
+  date: string;
+  transactionType: TransactionType;
+  userId: string;
+  accountId: string;
+  account: Account;
+  categoryId?: string;
+  category?: Category;
 };
