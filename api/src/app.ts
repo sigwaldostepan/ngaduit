@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { env } from './env';
 import { logger } from './middlewares/logger';
 import { connectDB } from './lib/db';
@@ -19,7 +19,7 @@ app.use(logger);
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', env.ALLOWED_ORIGIN!],
   })
 );
 
@@ -28,7 +28,13 @@ app.use('/', accountRoutes);
 app.use('/categories', categoryRoutes);
 app.use(transactionRoutes);
 
+app.get('/', (req: Request, res: Response) => {
+  res.send('Kamu keren bg');
+});
+
 app.listen(port, () => {
   console.log('Server running on port: ' + port);
   connectDB();
 });
+
+export default app;

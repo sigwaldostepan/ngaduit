@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -7,4 +7,5 @@ export const env = {
   COOKIE_NAME: process.env.COOKIE_NAME,
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_MAX_AGE: process.env.JWT_MAX_AGE,
+  ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN,
 };
