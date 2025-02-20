@@ -18,6 +18,10 @@ export type Account = {
   userId: string;
 };
 
+export type TotalBalance = {
+  balance: number;
+};
+
 export type Category = {
   id: string;
   name: string;
@@ -42,4 +46,9 @@ export type Transaction = {
   account: Account;
   categoryId?: string;
   category?: Category;
+};
+
+export type RecentTransaction = {
+  count: number;
+  transactions: Transaction[];
 };

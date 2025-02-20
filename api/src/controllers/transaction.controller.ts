@@ -90,6 +90,27 @@ export class TransactionController {
     }
   };
 
+  getRecentTransactions = async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id as string;
+
+      const { count, transactions } =
+        await this.transactionService.getRecentAndCountTransactions(userId);
+
+      sendOkResponse({
+        res,
+        payload: {
+          data: {
+            count,
+            transactions,
+          },
+        },
+      });
+    } catch (error) {
+      sendErrorResponse({ res, error });
+    }
+  };
+
   createTransaction = async (req: Request, res: Response) => {
     try {
       const userId = req.user?.id as string;

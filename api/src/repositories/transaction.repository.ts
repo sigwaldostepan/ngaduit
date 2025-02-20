@@ -48,6 +48,30 @@ export class TransactionRepository {
     return transaction;
   };
 
+  getRecentTransactions = async (userId: string) => {
+    const transactions = await db.transaction.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        date: 'desc',
+      },
+      take: 5,
+    });
+
+    return transactions;
+  };
+
+  countTransaction = async (userId: string) => {
+    const count = await db.transaction.count({
+      where: {
+        userId,
+      },
+    });
+
+    return count;
+  };
+
   getIncomeTransactions = async (userId: string) => {
     const transactions = await db.transaction.findMany({
       where: { userId, transactionType: 'INCOME' },

@@ -64,6 +64,18 @@ export class TransactionService {
     return transactions;
   };
 
+  getRecentAndCountTransactions = async (userId: string) => {
+    const transactions = await this.transactionRepository.getRecentTransactions(
+      userId
+    );
+    const count = await this.transactionRepository.countTransaction(userId);
+
+    return {
+      transactions,
+      count,
+    };
+  };
+
   createIncomeTransaction = async (
     payload: CreateTransactionSchema,
     userId: string

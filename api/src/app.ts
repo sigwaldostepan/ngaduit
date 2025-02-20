@@ -24,7 +24,7 @@ app.use(
 );
 
 app.use('/auth', authRoutes);
-app.use('/accounts', accountRoutes);
+app.use('/', accountRoutes);
 app.use('/categories', categoryRoutes);
 app.use(transactionRoutes);
 

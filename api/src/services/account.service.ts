@@ -59,6 +59,12 @@ export class AccountService {
     return account;
   };
 
+  getTotalBalance = async (userId: string) => {
+    const totalBalance = await this.accountRepository.getTotalBalance(userId);
+
+    return totalBalance;
+  };
+
   addAccount = async (
     userId: string,
     accountName: string,

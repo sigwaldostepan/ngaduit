@@ -25,6 +25,11 @@ const router = express.Router();
 
 router.get('/transactions', requireUser, transactionController.getTransactions);
 router.get(
+  '/transactions/recent',
+  requireUser,
+  transactionController.getRecentTransactions
+);
+router.get(
   '/transaction/:id',
   requireUser,
   transactionController.getTransactionById

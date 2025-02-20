@@ -1,4 +1,4 @@
-import { db } from "../lib/db";
+import { db } from '../lib/db';
 
 export class AccountRepository {
   getAllAccounts = async (userId: string) => {
@@ -9,7 +9,11 @@ export class AccountRepository {
     return accounts;
   };
 
-  getSortedAllAccounts = async (userId: string, sortBy: string, order: string) => {
+  getSortedAllAccounts = async (
+    userId: string,
+    sortBy: string,
+    order: string
+  ) => {
     const accounts = await db.account.findMany({
       where: { userId },
       orderBy: {
@@ -31,7 +35,7 @@ export class AccountRepository {
   getAccountsByName = async (accountName: string, userId: string) => {
     const accounts = await db.account.findMany({
       where: {
-        name: { contains: accountName, mode: "insensitive" },
+        name: { contains: accountName, mode: 'insensitive' },
         userId,
       },
     });
@@ -46,7 +50,7 @@ export class AccountRepository {
     userId: string
   ) => {
     const accounts = await db.account.findMany({
-      where: { name: { contains: accountName, mode: "insensitive" }, userId },
+      where: { name: { contains: accountName, mode: 'insensitive' }, userId },
       orderBy: {
         [sortBy]: order,
       },
@@ -55,7 +59,24 @@ export class AccountRepository {
     return accounts;
   };
 
-  createAccount = async (userId: string, accountName: string, initialBalance: number) => {
+  getTotalBalance = async (userId: string) => {
+    const totalBalance = await db.account.aggregate({
+      where: {
+        userId,
+      },
+      _sum: {
+        balance: true,
+      },
+    });
+
+    return totalBalance._sum;
+  };
+
+  createAccount = async (
+    userId: string,
+    accountName: string,
+    initialBalance: number
+  ) => {
     const account = await db.account.create({
       data: {
         userId,
@@ -67,7 +88,11 @@ export class AccountRepository {
     return account;
   };
 
-  updateAccount = async (accountId: string, accountName: string, balance: number) => {
+  updateAccount = async (
+    accountId: string,
+    accountName: string,
+    balance: number
+  ) => {
     const updatedAccount = await db.account.update({
       where: { id: accountId },
       data: { name: accountName, balance },

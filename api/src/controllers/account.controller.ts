@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { AccountService } from "../services/account.service";
-import { sendErrorResponse, sendOkResponse } from "../utils/responses";
+import { Request, Response } from 'express';
+import { AccountService } from '../services/account.service';
+import { sendErrorResponse, sendOkResponse } from '../utils/responses';
 
 export class AccountController {
   constructor(private accountService: AccountService) {
@@ -14,7 +14,12 @@ export class AccountController {
       const search = req.query.search as string;
       const userId = req.user?.id as string;
 
-      const accounts = await this.accountService.getAccounts(userId, sortBy, order, search);
+      const accounts = await this.accountService.getAccounts(
+        userId,
+        sortBy,
+        order,
+        search
+      );
 
       sendOkResponse({ res, payload: { data: accounts }, status: 200 });
     } catch (error) {
@@ -35,17 +40,33 @@ export class AccountController {
     }
   };
 
+  getTotalBalance = async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id as string;
+
+      const totalBalance = await this.accountService.getTotalBalance(userId);
+
+      sendOkResponse({ res, payload: { data: totalBalance } });
+    } catch (error) {
+      sendErrorResponse({ res, error });
+    }
+  };
+
   addAccount = async (req: Request, res: Response) => {
     try {
       const userId = req.user?.id as string;
       const { name, balance } = req.body;
 
-      const account = await this.accountService.addAccount(userId, name, balance);
+      const account = await this.accountService.addAccount(
+        userId,
+        name,
+        balance
+      );
 
       sendOkResponse({
         res,
         payload: {
-          message: "Akun rekening berhasil ditambahkan",
+          message: 'Akun rekening berhasil ditambahkan',
           data: account,
         },
         status: 201,
@@ -63,7 +84,11 @@ export class AccountController {
 
       await this.accountService.topUp(accountId, userId, amount);
 
-      sendOkResponse({ res, payload: { message: "Top up berhasil coyy" }, status: 200 });
+      sendOkResponse({
+        res,
+        payload: { message: 'Top up berhasil coyy' },
+        status: 200,
+      });
     } catch (error) {
       sendErrorResponse({ res, error });
     }
@@ -79,7 +104,7 @@ export class AccountController {
 
       sendOkResponse({
         res,
-        payload: { message: "Data akun rekening berhasil di-adpet" },
+        payload: { message: 'Data akun rekening berhasil di-adpet' },
         status: 200,
       });
     } catch (error) {
@@ -96,7 +121,7 @@ export class AccountController {
 
       sendOkResponse({
         res,
-        payload: { message: "Akun rekening berhasil dihapus y wak" },
+        payload: { message: 'Akun rekening berhasil dihapus y wak' },
         status: 200,
       });
     } catch (error) {
